@@ -1,0 +1,238 @@
+{% extends 'base.html' %} {% block content %}
+<!-- header dividers -->
+<!--decorative header - tablet and desktop only-->
+<div class="hide-on-small-only top-margin-page-divider">
+  <div class="row">
+    <div class="col m10 offset-m1">
+      <div class="col center-align m3">
+        <div class="left-align page-divider highlight3-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class="center-align page-divider highlight1-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class=" center-align page-divider highlight2-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class="center-align page-divider highlight4-background"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- call to action -->
+<div class="row hide-on-small-only information-container">
+  <div class="col s12">
+    <h5 class="center-align">Edit your recipe</h5>
+  </div>
+  <div class="row">
+    <div class="col s10 offset-s1">
+      <p class="left-align">Made a mistake? Found some better ingredients? Want to change the cooking instructions? Just fill out the form below to edit your own creation in the Cookbook.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Edit recipe form -->
+<section class="recipe-form">
+  <div class="row">
+    <!--set the edit variable to true to tell backend this is an existing recipe being editted and pass the id of the recipe-->
+    <form id="recipe-form" action="{{url_for('insertrecipe',recipe_id=recipe._id,edit='True') }}" method="POST" class="col s12">
+      <div class="row">
+        <div class="col s10 offset-s1">
+          <div class="row">
+            <div class="col s10 input-field">
+              <!--format text - capitalise first letter-->
+              <input id="name" name="name" type="text" value="{{recipe.name[0]|upper}}{{recipe.name[1:]|lower}}" required>
+              <label for="name">Name</label>
+            </div>
+            <div class="col s1 offset-s1 valign-wrapper">
+              <!--check if the recipe is marked as the user's favourite - if so show a gold star-->
+              {%if recipe.favourite %}
+              <p id="favourite"><i id="star" class="material-icons gold-star">star</i></p>
+              <input type="hidden" id="favourite_input" name="favourite" value="true">
+              {% else %}
+              <p id="favourite"><i id="star" class="material-icons">star_border</i></p>
+              <input type="hidden" id="favourite_input" name="favourite" value="false">
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6 input-field">
+              <label for="country">Country of origin</label>
+              <!--format text - capitalise first letter-->
+              <!--text-only class calls alphanum jquery to ensure only text and no numbers can be input-->
+              <input id="country" class="autocomplete text-only" name="country" type="text" value="{{recipe.country[0]|upper}}{{recipe.country[1:]|lower}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6 input-field">
+              <label for="picture">Picture</label>
+              <input id="picture" name="picture" type="text" value="{{recipe.picture}}" placeholder="type in full URL of image">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m4 l3 input-field">
+              <!--dropdown multiple select list of allergens-->
+              <select name="allergens" id="select_allergens" multiple>
+                <!--check if each allergen is listed in the recipe doc, if so, mark the drop down for that allergen as selected-->
+                <option value="dairy" {% if recipe.allergens and 'dairy' in recipe.allergens|lower %} selected="selected" {% endif %}>DAIRY</option>
+                <option value="fish" {% if recipe.allergens and 'fish' in recipe.allergens|lower %} selected="selected" {% endif %}>FISH</option>
+                <option value="gluten" {% if recipe.allergens and 'gluten' in recipe.allergens|lower %} selected="selected" {% endif %}>GLUTEN</option>
+                <option value="nuts" {% if recipe.allergens and 'nuts' in recipe.allergens|lower %} selected="selected" {% endif %}>NUTS</option>
+                <option value="shellfish" {% if recipe.allergens and 'shellfish' in recipe.allergens|lower %} selected="selected" {% endif %}>SHELLFISH</option>
+                <option value="eggs" {% if recipe.allergens and 'eggs' in recipe.allergens|lower %} selected="selected" {% endif %}>EGGS</option>
+                <option value="meat" {% if recipe.allergens and 'meat' in recipe.allergens|lower %} selected="selected" {% endif %}>MEAT</option>
+              </select>
+              <label for="select_allergens">Contains:</label>
+            </div>
+
+            <div class="col s6 m3 input-field">
+              <!--dropdown list of meals-->
+              <select name="meal">
+                <option value="" disabled selected>Select</option>
+                <!--check which meal is listed in the recipe doc, if so, mark the drop down for that meal as selected-->
+                <option value="breakfast" {% if recipe.meal|upper=="BREAKFAST" %} selected="selected" {% endif %}>BREAKFAST</option>
+                <option value="lunch" {% if recipe.meal|upper=="LUNCH" %} selected="selected" {% endif %}>LUNCH</option>
+                <option value="dinner" {% if recipe.meal|upper=="DINNER" %} selected="selected" {% endif %}>DINNER</option>
+                <option value="dessert" {% if recipe.meal|upper=="DESSERT" %} selected="selected" {% endif %}>DESSERT</option>                    
+                <option value="beverage" {% if recipe.meal|upper=="BEVERAGE" %} selected="selected" {% endif %}>BEVERAGE</option>                    
+                <option value="snack" {% if recipe.meal|upper=="SNACK" %} selected="selected" {% endif %}>SNACK</option>
+              </select>
+              <label for="meal">Meal</label>
+            </div>
+
+            <div class="col s6 m3 input-field">
+                <!--dropdown list of difficulty levels-->
+              <select name="difficulty">
+                <!--check which difficulty level is listed in the recipe doc, if so, mark the drop down for that difficulty level as selected-->
+                <option value="" disabled selected>Select</option>
+                <option value="easy" {% if recipe.difficulty|upper=="EASY" %} selected="selected" {% endif %}>EASY</option>
+                <option value="medium" {% if recipe.difficulty|upper=="MEDIUM" %} selected="selected" {% endif %}>MEDIUM</option>
+                <option value="hard" {% if recipe.difficulty|upper=="HARD" %} selected="selected" {% endif %}>HARD</option>
+              </select>
+              <label for="difficulty">Difficulty</label>
+            </div>
+
+            <div class="col m2 s3 l1 input-field" style="white-space:nowrap">
+              <input name="hours" type="number" value="{{recipe.hours}}" placeholder="hours" class="number-only">
+              <label for="hours">Cooking Time</label>
+            </div>
+            <div class="col m2 s3 l1 input-field">
+              <input name="minutes" id="minutes" type="number" min="0" max="59" value="{{recipe.minutes}}" placeholder="minutes" class="validate number-only">
+            </div>
+            <div class="col s3 m2 l1 input-field">
+              <input name="calories" id="calories" type="number" min="0" max="5000" value="{{recipe.calories}}" placeholder="calories" class="validate number-only">
+              <label for="calories">Calories</label>
+            </div>
+          </div>
+
+          <div class="row ">
+            <!--ingredients input form-->
+            <div class="col s12">
+              <p><strong>Ingredients</strong></p>
+            </div>
+          </div>
+
+          <div id="ingredients">
+            <!--iterate through ingredients in recipe and display-->
+            {% for ingredient in recipe.ingredients %}
+            <div class="row">
+              <div class="col s1 offset-s1 l1">
+                <a id='remove_ingredient' class='right btn-floating btn-small waves-effect waves-light highlight3-background'><i class='material-icons'>delete</i></a>
+                <input type='hidden' name='type' value="{{ingredient.type}}">
+                <input type='hidden' name='amount' value="{{ingredient.amount}}">
+                <input type='hidden' name='unit' value="{{ingredient.unit}}">
+              </div>
+              <div class="col s10 l5 valign-wrapper">
+                <p>
+                  {{ingredient.amount}}{% if ingredient.unit %}{{ingredient.unit}} {% endif %} {{ingredient.type[0]|upper}}{{ingredient.type[1:]|lower}}
+                </p>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+
+          <div class="row">
+            <div class="col s12 m5 l4 input-field">
+              <!--text-only class calls alphanum jquery to ensure only text and no numbers can be input-->
+              <input class="autocomplete text-only" id="ingredient" type="text">
+              <label for="ingredient">Ingredient</label>
+            </div>
+            <div class="col s3 m2 l2 input-field">
+              <input id="amount" type="number" min="0" class="number-only">
+              <label for="amount">Quantity</label>
+            </div>
+            <!--dropdown list of units of measurement-->
+            <div id="unit" class="col s3 m2 l1 input-field">
+              <select id="select-unit">
+                <option value="" selected="selected">N/A</option>
+                <option value="g">g</option>
+                <option value="kg">kg</option>
+                <option value="oz">oz</option>
+                <option value="lb">lb</option>
+                <option value="ml">ml</option>
+                <option value="ltr">ltr</option>
+                <option value="tsp">tsp</option>
+                <option value="tbsp">tbsp</option>
+                <option value="unit">unit</option>                     
+              </select>
+              <label for="select-unit">Unit</label>
+            </div>
+            <!--add ingredient button-->
+            <div class="col s1 add-ingredient-button">
+              <a id="add_ingredient" class="btn-floating btn-small waves-effect waves-light highlight3-background"><i class="material-icons">add</i></a>
+            </div>
+          </div>
+
+          <div class="row">
+            <!--text area to input recipe method-->
+            <div class="col s12 input-field">
+              <label for="method">Method</label>
+              <textarea name="method" id="method" class="materialize-textarea" required>{{recipe.method}}</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!--return and submit options-->
+        <div class="col s4 offset-s1 m2 offset-m3 ">
+          <a href="{{url_for('index')}}" class="waves-effect waves-light btn btn-block hide-on-large-only highlight2-background">Home</a>
+          <a href="{{url_for('index')}}" class="waves-effect waves-light btn-large btn-block hide-on-med-and-down highlight2-background">Home</a>
+        </div>
+        <div class="col s4 offset-s2 m2 offset-m2 ">
+          <button type="button" class="submit-recipe waves-effect waves-light btn btn-block hide-on-large-only highlight4-background">Update</button>
+          <button type="button" class="submit-recipe waves-effect waves-light btn-large btn-block hide-on-med-and-down highlight4-background">Update</button>
+        </div>
+      </div>
+      <!--author field - takes value of user logged in - not displayed -->
+      <input id="author" type="hidden" name="author" value="{{recipe.author}}">
+    </form>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{url_for('static', filename='js/jquery.alphanum.js')}}"></script>
+
+<script>
+  $(document).ready(function() {
+    //initialisation for autocomplete fields taken from ingredients, and country collections
+    var ingredient_list = {{ingredients_list|tojson}};
+    var country_list = {{country_list|tojson}};
+
+    $('#ingredient').autocomplete({
+      data: ingredient_list,
+    });
+    $('#country').autocomplete({
+      data: country_list,
+    });
+  })
+  //initialisation for text-only and number-only input boxes (ingredient name, calories and cook time)
+  $('.text-only').alpha();  
+  $('.number-only').numeric();
+</script>
+
+{% endblock %}

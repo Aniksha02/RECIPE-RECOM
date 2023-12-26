@@ -1,0 +1,209 @@
+{% extends 'base.html' %} {% block content %}
+
+<!-- call to action -->
+<div class="hide-on-small-only top-margin-page-divider">
+  <div class="row">
+    <div class="col m10 offset-m1">
+      <div class="col center-align m3">
+        <div class="left-align page-divider highlight3-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class="center-align page-divider highlight1-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class=" center-align page-divider highlight2-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class="center-align page-divider highlight4-background"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row hide-on-small-only information-container">
+  <div class="col s12">
+    <h5 class="center-align">Create your own recipe</h5>
+  </div>
+  <div class="row">
+    <div class="col s10 offset-s1">
+      <p class="left-align">Fill out the form below to add your own creation to the Cookbook. Make sure you name it, add your ingredients and the instructions.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Add recipe form -->
+<section class="recipe-form">
+  <div class="row">
+    <!--set the edit variable to false to tell flask this is a new recipe being added so no need to request the recipe_id-->
+    <form id="recipe-form" action="{{url_for('insertrecipe', edit='False') }}" method="POST" class="col s12">
+      <div class="row">
+        <div class="col s10 offset-s1">
+          <div class="row">
+            <div class="col s10 input-field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text">
+            </div>
+            <!--button for user to select to mark recipe as one of their favourites-->
+            <div class="col s1 offset-s1 valign-wrapper">
+              <p id="favourite"><i id="star" class=" material-icons">star_border</i></p>
+              <input type="hidden" id="favourite_input" name="favourite" value=false>
+            </div>
+          </div>
+
+          <div class="row">
+            <!--user can enter a new country or pick from autocomplete list, retrieved from country collection-->
+            <div class="col s12 m6 input-field">
+              <label for="country">Country of origin</label>
+              <input id="country" class="autocomplete text-only" name="country" type="text">
+            </div>
+
+            <div class="col s12 m6 input-field">
+              <label for="picture">Picture</label>
+              <input id="picture" name="picture" type="text" placeholder="type in full URL of image">
+            </div>
+          </div>
+
+          <div class="row">
+            <!--drop down selection list of allergens-->
+            <div class="col s12 m4 l3 input-field">
+              <select name="allergens" id="select_allergens" multiple>
+                <option value="dairy">DAIRY</option>
+                <option value="fish">FISH</option>
+                <option value="gluten">GLUTEN</option>
+                <option value="nuts">NUTS</option>
+                <option value="shellfish">SHELLFISH</option>
+                <option value="eggs">EGGS</option>
+                <option value="meat">MEAT</option>
+              </select>
+              <label for="allergens">Contains:</label>
+            </div>
+            
+            
+            <div class="col s6 m3 input-field">
+              <!--drop down selection list of meals-->
+              <select name="meal">
+                <option value="" disabled selected>Select</option>
+                <option value="breakfast">BREAKFAST</option>
+                <option value="lunch">LUNCH</option>
+                <option value="dinner">DINNER</option>
+                <option value="dessert">DESSERT</option>     
+                <option value="beverage">BEVERAGE</option>                    
+                <option value="snack">SNACK</option>
+                </select>
+              <label for="meal">Meal</label>
+            </div>
+
+            <div class="col s6 m3 input-field">
+              <!--drop down selection list of difficulty ratings-->
+              <select name="difficulty">
+                <option value="" disabled selected>Select</option>
+                <option value="easy">EASY</option>
+                <option value="medium">MEDIUM</option>
+                <option value="hard">HARD</option>
+                </select>
+              <label for="difficulty">Difficulty</label>
+            </div>
+
+            <div class="col s3 l1 input-field">
+              <!--input fields for time and calories - number only input-->
+              <input name="hours" type="number" min="0" placeholder="hours" class="number-only">
+              <label for="hours" data-error="Please enter valid time.">Cooking Time</label>
+            </div>
+            <div class="col m2 s3 l1 input-field">
+              <input name="minutes" id="minutes" type="number" min="0" max="59" placeholder="minutes" class="validate number-only">
+            </div>
+            <div class="col s3 m2 l1 input-field">
+              <input name="calories" id="calories" min="0" max="5000" type="number" placeholder="calories" class="validate number-only">
+              <label for="calories">Calories</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <!--ingredients input form-->
+            <div class="col s12">
+              <p>Ingredients</p>
+            </div>
+          </div>
+          <!--empty div to be populated by ingredients list as user adds ingredients-->
+          <div id="ingredients">
+          </div>          
+          <div class="row">
+            <div class="col s12 m5 l4 input-field">
+              <!--text-only class calls alphanum jquery to ensure only text and no numbers can be input-->
+              <input class="autocomplete text-only" id="ingredient" type="text">
+              <label for="ingredient">Ingredient</label>
+            </div>
+            <div class="col s3 m2 l2 input-field">
+              <input id="amount" type="number" min="0" class="number-only">
+              <label for="amount">Quantity</label>
+            </div>
+            <!--dropdown list of units of measurement-->
+            <div id="unit" class="col s3 m2 l1 input-field" >
+              <select id="select-unit">
+                <option value="" selected="selected">N/A</option>
+                <option value="g">g</option>
+                <option value="kg">kg</option>
+                <option value="oz">oz</option>
+                <option value="lb">lb</option>
+                <option value="ml">ml</option>
+                <option value="ltr">ltr</option>
+                <option value="tsp">tsp</option>
+                <option value="tbsp">tbsp</option>
+                <option value="unit">unit</option>                
+              </select>
+              <label for="select-unit">Unit</label>
+            </div>
+            <!--add ingredient button-->
+            <div class="col s1 add-ingredient-button">
+              <a id="add_ingredient" class="btn-floating btn-small waves-effect waves-light highlight3-background"><i class="material-icons">add</i></a>
+            </div>              
+          </div>
+        
+          <div class="row">
+            <!--text area to set out method for making recipe-->
+            <div class="col s12 input-field">
+              <label for="method">Method</label>
+              <textarea id="method" name="method" class="materialize-textarea" required></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <!--return and submit options-->
+        <div class="col s4 offset-s1 m2 offset-m3 ">
+          <a href="{{url_for('index')}}" class="waves-effect waves-light btn btn-block hide-on-large-only highlight2-background">Home</a>
+          <a href="{{url_for('index')}}" class="waves-effect waves-light btn-large btn-block hide-on-med-and-down highlight2-background">Home</a>
+        </div>
+        <div class="col s4 offset-s2 m2 offset-m2 ">
+          <button type="button" class="submit-recipe waves-effect waves-light btn btn-block hide-on-large-only highlight4-background">Add</button>
+          <button type="button" class="submit-recipe waves-effect waves-light btn-large btn-block hide-on-small-only hide-on-med-and-down highlight4-background">Add</button>
+        </div>
+      </div>
+      <!--hidden author field - takes value of user logged in - not displayed -->
+      <input id="author" type="hidden" name="author" value="{{session['user']}}">
+    </form>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{url_for('static', filename='js/jquery.alphanum.js')}}"></script>
+
+<script>
+  $(document).ready(function() {
+    //initialisation for autocomplete fields taken from ingredients, and country collections
+    var ingredient_list = {{ingredients_list|tojson}};
+    var country_list = {{country_list|tojson}};
+
+    $('#ingredient').autocomplete({
+      data: ingredient_list,
+    });
+    $('#country').autocomplete({
+      data: country_list,
+    });
+  })
+  //initialisation for text-only and number-only input boxes (ingredient name, calories and cook time)
+  $('.text-only').alpha();  
+  $('.number-only').numeric();
+</script>
+
+{% endblock %}

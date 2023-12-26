@@ -1,0 +1,186 @@
+{% extends 'base.html' %} {% block content %}
+<!-- header dividers -->
+<!--decorative header - tablet and desktop only-->
+<section class="hide-on-small-only">
+  <div class="row top-margin-page-divider">
+    <div class="col m10 offset-m1">
+      <div class="col center-align m3">
+        <div class="left-align page-divider highlight3-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class="center-align page-divider highlight1-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class=" center-align page-divider highlight2-background"></div>
+      </div>
+      <div class="col center-align m3">
+        <div class="center-align page-divider highlight4-background"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- call to action -->
+<section class="hide-on-med-and-up">
+    <div class="splash-container search-splash">
+        <div class="row  valign-wrapper">
+            <div class="col s8 offset-s2 m6 offset-m3 ">
+                <h6 class="flow-text center-align">Browse for recipes by category</h6>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--information and details tablet and desktop devices only-->
+<section class="hide-on-small-only">
+    <div class="information-container">
+        <div class="row hide-on-small-only">
+            <div class="col s12">
+                <h5 class="center-align">Browse your recipes</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s10 offset-s1">
+                <p class="left-align">After a particular cuisine? Concerned about dietary requirements? Or just fancy that particular dish with your favourite ingredient? Search the Cookbook by clicking on the categories below.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- search -->
+<section>
+    <div class="row" id="category-search-form-container">
+        <div class="col s12 m8 offset-m2">
+            <ul>
+                <li>
+                    <!--category search options-->
+                    <div>Search Category:&nbsp;<span id="category-to-search"></span></div>
+                    <div>
+                        <form action="{{url_for('display_categories')}}" id="categories" method="POST">
+                            <!--each category is a collection - ingredients, authors, allergens, meal type, country -->
+                            <!--category lists populated at backend from documents in each collection-->
+                            <!--for each category display a list of the elements in that category in a multiple select dropdown list. User can select multiple elements - e.g. several ingredients, some or all difficulty levels, one or more meal types-->
+                            <div class="list-category input-field" id="list-element-ingredients">
+                                <!--dropdown list of ingredients-->
+                                <select name="ingredients" multiple>
+                                    {%for ingredient in category_list["ingredients"] %}
+                                    <option value="{{ingredient}}">{{ingredient}}</option>
+                                    {%endfor%}
+                                </select>
+                                <label for="ingredients" data-error="Select an ingredient">Select at least one ingredient</label>
+                            </div>
+
+                            <div class="list-category input-field" id="list-element-dietary">
+                                <!--dropdown list of allergens-->
+                                <select name="allergens" multiple>
+                                    {%for allergy in category_list["allergens"] %}
+                                    {%if allergy=="Meat"%}
+                                    <option value="{{allergy}}">Vegetarian</option>
+                                    {%else%}
+                                    <option value="{{allergy}}">{{allergy}}-free</option>
+                                    {%endif%}
+                                    {%endfor%}
+                                </select>
+                                <label for="allergens" data-error="Select an allergen">Select at least one option</label>
+
+                            </div>
+
+                            <div class="list-category input-field" id="list-element-difficulty">
+                                <!--dropdown list of difficulty levels-->
+                                <select name="difficulty" multiple>
+                                    {%for difficulty in category_list["difficulty"] %}
+                                    <option value="{{difficulty}}">{{difficulty}}</option>
+                                    {%endfor%}
+                                </select>
+                                <label for="difficulty" data-error="Select a difficulty level">Select at least one difficulty level</label>
+                            </div>
+
+                            <div class="list-category input-field" id="list-element-meal">
+                                <!--dropdown list of meal types-->
+                                <select name="meal" multiple>
+                                    {%for meal in category_list["meal"] %}
+                                    <option value="{{meal}}">{{meal}}</option>
+                                    {%endfor%}
+                                </select>
+                                <label for="meal" data-error="Select a meal">Select at least one type of recipe</label>
+
+                            </div>
+
+                            <div class="list-category input-field" id="list-element-country">
+                                <!--dropdown list of countries-->
+                                <select name="country" multiple>
+                                    {%for country in category_list["country"] %}
+                                    <option value="{{country}}">{{country}}</option>
+                                    {%endfor%}
+                                </select>
+                                <label for="country" data-error="Select a country">Select at least one country</label>
+                            </div>
+
+                            <div class="list-category input-field" id="list-element-author">
+                                <!--dropdown list of authors-->
+                                <select name="author" multiple>
+                                    {%for author in category_list["author"] %}
+                                    <option value="{{author}}">{{author}}</option>
+                                    {%endfor%}
+                                </select>
+                                <label for="author" data-error="Select an author">Select at least one author</label>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s4 offset-s1 m3 offset-m2 ">
+                                    <button type="button" class="waves-effect waves-light btn btn-block hide-on-large-only highlight4-background category-close-button">Cancel</button>
+                                    <button type="button" class="waves-effect waves-light btn btn-block hide-on-med-and-down highlight4-background category-close-button">Cancel</button>
+                                </div>
+                                <div class="col s4 offset-s2 m3 offset-m2 ">
+                                    <button type="button" class="waves-effect waves-light btn btn-block hide-on-large-only highlight1-background category-search-button">Search</button>
+                                    <button type="button" class="waves-effect waves-light btn btn-block hide-on-med-and-down highlight1-background category-search-button">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- category search buttons -->
+<section>
+    <!--user can select one category to search by - display list of category buttons-->
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="search-button-container">
+                <div class="row">
+                    <div class="col s4 valign-wrapper waves-effect waves-light search-button" id="search-ingredients">
+                        <p class="center-align flow-text"><strong>Ingredients</strong></p>
+                    </div>
+                    <div class="col s4  valign-wrapper waves-effect waves-light search-button" id="search-dietary">
+                        <p class="center-align flow-text"><strong>Dietary</strong></p>
+                    </div>
+                    <div class="col s4  valign-wrapper waves-effect waves-light search-button" id="search-difficulty">
+                        <p class="center-align flow-text"><strong>Difficulty</strong></p>
+                    </div>
+                    <div class="col s4  valign-wrapper waves-effect waves-light search-button" id="search-meal">
+                        <p class="center-align flow-text"><strong>Meal</strong></p>
+                    </div>
+
+                    <div class="col s4  valign-wrapper waves-effect waves-light search-button" id="search-country">
+                        <p class="center-align flow-text"><strong>Country</strong></p>
+                    </div>
+                    <div class="col s4 valign-wrapper waves-effect waves-light search-button" id="search-author">
+                        <p class="center-align flow-text"><strong>Author</strong></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s4 offset-s4 m2 offset-m5 ">
+                        <a href="{{url_for('index')}}" class="waves-effect waves-light btn btn-block hide-on-large-only highlight2-background">Home</a>
+                        <a href="{{url_for('index')}}" class="waves-effect waves-light btn-large btn-block hide-on-med-and-down highlight2-background">Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

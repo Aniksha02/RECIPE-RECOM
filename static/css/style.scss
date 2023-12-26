@@ -1,0 +1,815 @@
+$base-color: #0339A6;
+$base-color-opaque: rgba(3, 57, 166, 0.75);
+$highlight1-color: #034AA6;
+$highlight2-color: #033E8C;
+//$highlight3-color: #F2C6A0;
+$highlight3-color: #c69769;
+$highlight4-color: #8C5D42;
+$font-color: #5A6978;
+
+$highlight-colors: $highlight1-color $highlight2-color $highlight3-color $highlight4-color;
+
+//create background colours 
+@each $color in $highlight-colors {
+    $i: index($highlight-colors, $color);
+    .highlight#{$i}-background {
+        background-color: #{$color} !important
+    }
+}
+
+//----- MATERIALIZE CUSTOMISE OPTIONS -----//
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    overflow-y: overlay;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+//----- GENERAL STYLES -----//
+form {
+    margin-top: 10px;
+    font-family: "Roboto", sans-serif;
+    .row {
+        margin-bottom: 0;
+    }
+    #add_ingredient {
+        margin-top: 22px;
+    }
+    #remove_ingredient {
+        margin-top: 6px;
+        background-color: $highlight4-color !important;
+    }
+    label {
+        color: $base-color;
+    }
+    p {
+        color: $base-color;
+    }
+    input {
+        border-bottom: 1px solid $base-color !important;
+        font-family: "Roboto", sans-serif !important;
+        font-size: 14px !important;
+    }
+
+    input:focus {
+        border-bottom: 1px solid $base-color !important;
+        box-shadow: 0 1px 0 0 $base-color !important;
+
+    }
+    .input-field {
+        //margin-top: 0;
+        label {
+            color: $base-color;
+            font-family: "Roboto", sans-serif;
+        }
+    }
+
+
+}
+
+input[type="checkbox"]:checked+span:not(.lever):before {
+    border-right: 2px solid $highlight2-color;
+    border-bottom: 2px solid $highlight2-color;
+}
+
+.page-dividers {
+    .col {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.page-divider {
+    height: 10px;
+    margin: 0 30px 0 30px;
+}
+
+.top-margin-page-divider {
+    margin-top: 20px;
+}
+
+.top-margin-wide-page-divider {
+    margin-top: 40px;
+}
+
+.padded-margin-page-divider {
+    margin: 20px 0 20px 0;
+}
+
+.btn-block {
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+}
+
+.btn:active {
+    background-color: $highlight4-color !important;
+}
+
+.select-wrapper input {
+    font-size: 1rem !important;
+}
+
+.dropdown-content li>span {
+    color: $font-color;
+    font-size: 0.8rem;
+}
+
+.gold-star {
+    color: #FFBF57;
+}
+
+.loader {
+    position: absolute;
+    margin: auto;
+    top: 50vh;
+    bottom: 50vh;
+    left: 0;
+    right: 0;
+}
+
+//----- NAV BAR ----- //
+.nav-wrapper {
+    background-color: $base-color;
+    .brand-logo {
+        font-family: "Abril Fatface", cursive;
+        padding-left: 15px !important;
+    }
+    .selected {
+        background-color: white;
+        a {
+            color: $base-color;
+        }
+    }
+    li {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        text-align: center;
+        width: 120px;
+        a {
+            font-size: 1.2rem;
+        }
+    }
+    .navbar-icon {
+        padding: 0 0px 0 15px;
+    }
+}
+
+.sidenav {
+    padding-bottom: 0;
+    background-color: transparent;
+    box-shadow: none; //    max-height: 192px;
+    width: 25vw;
+    li {
+        a {
+            height: 100%;
+            color: white;
+            padding: 0 !important;
+        }
+    }
+    .collapsible>li>a {
+        border-bottom: solid 1px grey;
+    }
+}
+
+#search-options {
+    li {
+        height: 63px;
+        a {
+            padding-top: 22px;
+            color: white;
+            width: 100%;
+            height: 100%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+
+//----- MAIN TITLE AND BACKGROUND IMAGE SECTION -----//
+.title-container {
+    height: 30vh;
+    background: url('/static/images/background.jpg') no-repeat center;
+    background-size: cover;
+    .title-text {
+        font-family: "Abril Fatface", cursive;
+        color: white;
+        background-color: $base-color-opaque;
+        margin: auto;
+        h5 {
+            font-size: 1.5rem;
+            padding: 0px 10px 7px 10px;
+        }
+    }
+}
+
+//----- SPLASH SECTION -----//
+.splash-container {
+    background-color: $highlight1-color;
+    font-family: "Roboto",sans-serif;
+    color: white;
+    .row {
+        margin-bottom: 0;
+    }
+}
+
+.index-splash {
+    height: 200px;
+    h6 {
+        padding-top: 20px;
+    }
+    .row {
+        height: 50%;
+    }
+}
+
+.search-splash {
+    height: 100px;
+    .row {
+        height: 100%;
+    }
+}
+
+//----- INFORMATION SECTION -----//
+.information-container {
+    color: $base-color;
+    padding-top: 20px;
+    i {
+        font-size: 2.5rem;
+    }
+}
+
+//----- SEARCH PAGE -----//
+.search-button-container {
+    font-family: "Roboto",sans-serif;
+    color: white;
+    .col {
+        color: $highlight1-color;
+        line-height: 80px;
+        border: 1px solid white;
+        padding: 0;
+        p {
+            margin: 0;
+        }
+    }
+    .row {
+        margin-bottom: 0;
+    }
+    .btn-flat {
+        color: white;
+    }
+    a {
+        margin-top: 30px;
+    }
+
+    .search-button {
+        transition-duration: 0.5s;
+        border: 5px solid $highlight4-color;
+        transition-duration: 0.5s;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        strong {
+            color: white;
+            padding: 5px;
+            background-color: $base-color-opaque;
+        }
+    }
+    .search-button-clicked {
+        background-image: none !important;
+        background-color: $highlight2-color;
+    }
+    #search-ingredients {
+        background-image: url("/static/images/button-ingredients.jpg");
+    }
+    #search-meal {
+        background-image: url("/static/images/button-meal.jpg");
+    }
+    #search-author {
+        background-image: url("/static/images/button-author.jpg");
+    }
+    #search-difficulty {
+        background-image: url("/static/images/button-difficulty.jpg");
+    }
+    #search-dietary {
+        background-image: url("/static/images/button-dietary.jpg");
+
+    }
+    #search-country {
+        background-image: url("/static/images/button-country.jpg");
+    }
+}
+
+#category-search-form-container {
+    margin-top: 20px;
+    display: none;
+}
+
+//----- CATEGORY SEARCH RESULTS PAGE -----//
+.category-search-results-container {
+
+    img {
+        width: 50px;
+        height: 50px;
+        border: solid 4px $highlight4-color;
+        object-fit: cover;
+    }
+    .collapsible-header {
+        line-height: 45px;
+        img,
+        i {
+            margin: auto;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .row {
+            padding: 0;
+            margin: 0;
+            flex: auto
+        }
+    }
+    .collapsible-body {
+        padding: 0;
+        color: $font-color;
+        p {
+            padding-left: 30px;
+        }
+        a {
+            color: $highlight2-color;
+            padding-right: 30px;
+        }
+        a:hover {
+            color: $highlight3-color;
+        }
+    }
+    .category-result-header {
+        background-color: #8C5D42;
+        color: white;
+    }
+    .row {
+        margin-bottom: 0;
+    }
+    .s12 {
+        padding: 0;
+    }
+    ul {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.category-search-results-button-container {
+    .row {
+        margin-top: 20px;
+    }
+}
+
+//----- RECIPE RESULTS PAGE -----//
+.recipe-list-header {
+    font-family: "Roboto", sans-serif;
+    padding-top: 10px;
+    font-size: 0.75rem;
+    .col {
+        padding: 0 5px 0 5px;
+    }
+    .row {
+        margin-bottom: 0;
+    }
+}
+
+.recipe-list-search-options-container {
+    .col {
+        padding: 0;
+    }
+    .row {
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .collapsible {
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0 !important;
+    }
+    .collapsible-header {
+        background-color: #8C5D42;
+        color: white;
+        .row {
+            flex: auto;
+            padding: 0;
+            margin: 0;
+        }
+    }
+    .collapsible-body {
+        padding-bottom: 20px;
+        padding-top: 0;
+        .filter-button {
+            margin-top: 20px;
+        }
+    }
+    .input-field {
+        margin-bottom: 0;
+    }
+    .sort-options-list {
+        .select-wrapper {
+            display: inline-block;
+        }
+    }
+
+    .filter-button {
+        border: none;
+        background-color: white;
+    }
+
+}
+
+.recipe-list-results {
+    p {
+        font-size: 1rem;
+    }
+    .row {
+        margin-bottom: 0;
+    }
+    .recipe-list {
+        font-family: "Roboto", sans-serif;
+        .col {
+            padding: 0 5px 0 5px;
+        }
+        .row {
+            margin-bottom: 0;
+        }
+        a {
+            color: $font-color;
+        }
+        img {
+            width: 50px;
+            height: 50px;
+            border: solid 4px $highlight4-color;
+            object-fit: cover;
+        }
+        i {
+            line-height: 50px;
+        }
+    }
+    .recipe-book {
+        p {
+            margin: 5px 0 0 0;
+        }
+    }
+    .row-effect {
+        .row {
+            transition-duration: 0.5s;
+        }
+    }
+    .pagination li.active {
+        background-color: $highlight4-color;
+    }
+}
+
+//----- ADD AND EDIT RECIPE PAGES -----//
+.recipe-form {
+    textarea {
+        border-bottom: 1px solid $base-color !important;
+        font-family: "Roboto", sans-serif !important;
+        font-size: 14px !important;
+
+    }
+
+    textarea:focus {
+        border-bottom: 1px solid $base-color !important;
+        box-shadow: 0 1px 0 0 $base-color !important;
+    }
+
+    .add-ingredient-button {
+        position: relative;
+        top: 5px;
+    }
+    label {
+        white-space: nowrap;
+    }
+}
+
+//----- DISPLAY RECIPE PAGE -----//
+.display-recipe-button-container {
+    position: fixed;
+    li a {
+        color: white;
+    } //NB overriding general dropdown-content style
+    .dropdown-content li>span {
+        font-size: 16px;
+        color: white;
+    }
+}
+
+.recipe-details {
+    color: $base-color;
+    .row {
+        margin: 0;
+    }
+    i {
+        padding-top: 16px;
+        font-size: 30px;
+    }
+}
+
+#mark-favourite {
+    border: none;
+    background-color: transparent;
+    color: $highlight1-color;
+}
+
+.recipe-contents-list {
+    margin-bottom: 20px;
+    p {
+        margin: 0;
+    }
+}
+
+.recipe-subject {
+    font-weight: 700;
+    color: $font-color;
+}
+
+.recipe-image {
+    width: 25vh;
+    border: 3px solid $highlight4-color;
+}
+
+//----- ANIMATIONS -----//
+.collapsible {
+    .expand,
+    .expand-nested {
+        transition-duration: 0.25s;
+        transform: rotate(-90deg);
+    }
+    .active .expand {
+        transform: rotate(0deg);
+    }
+    .collapsible {
+        .active .expand-nested {
+            transform: rotate(0deg);
+        }
+    }
+}
+
+//----- MODAL STYLES -----//
+.modal {
+    max-width: 600px;
+    font-family: "Roboto", sans-serif;
+    color: $font-color;
+    h4 {
+        color: $base-color;
+    }
+    button {
+        color: white;
+        padding: 0;
+    }
+}
+
+#loader-modal {
+    .modal-content {
+        height: 25vh;
+        p {
+            margin-top: 17vh;
+        }
+    }
+}
+
+//-----Media queries -----//
+@media (hover: hover) {
+    .row-effect {
+        .row:hover {
+            background-color: $highlight1-color;
+            p {
+                color: white;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .title-container {
+        height: 250px;
+        .title-text {
+            h5 {
+                font-size: 2rem;
+            }
+        }
+    }
+    .information-container {
+        p {
+            color: $font-color;
+            font-size: 1.2rem;
+        }
+    }
+    .category-search-results-container {
+        .category-result-header {
+            background-color: white;
+            color: $highlight1-color;
+        }
+
+        img {
+            width: 70px;
+            height: 70px;
+        }
+        .fa {
+            font-size: 35px;
+        }
+    }
+
+    .search-splash {
+        height: 125px;
+    }
+
+    .recipe-list-search-options-container {
+        font-size: 1rem;
+        .dropdown-content li>span {
+            font-size: 0.8rem;
+        }
+        .select-wrapper input.select-dropdown {
+            font-size: 0.8rem !important;
+        }
+        .select-wrapper span {
+            font-size: 0.8rem !important;
+        }
+        .collapsible-header {
+            background-color: white;
+            color: $highlight1-color; //            background-color: $highlight1-color;
+            //            color: white;        
+        }
+        p {
+            margin-top: 10px;
+        }
+    }
+
+    .recipe-list-results {
+        .recipe-list {
+            img {
+                width: 50px;
+                height: 50px;
+            }
+            i {
+                line-height: 50px;
+                font-size: 25px;
+            }
+        }
+        .selected-for-deletion {
+            background-color: red;
+            color: white;
+        }
+    }
+
+    .search-button-container {
+        .col {
+            line-height: 110px;
+        }
+    }
+    .index-splash {
+        height: 200px;
+        a {
+            padding: 0;
+        }
+    }
+
+    .recipe-image {
+        width: 25vw;
+        max-width: 350px;
+    }
+
+    .display-recipe-button-container {
+        .dropdown-trigger {
+            margin: 10px 0 0 20px;
+        }
+    }
+
+}
+
+@media (min-width: 992px) {
+    form {
+        p {
+            font-size: 1.2rem !important;
+        }
+        input,
+        label {
+            font-size: 0.9rem !important;
+
+        }
+    }
+    .nav-wrapper {
+        padding-right:20px;        
+    }    
+    .title-container {
+        height: 350px;
+        .title-text {
+            h5 {
+                font-size: 2.5rem;
+            }
+        }
+    }
+    .index-splash {
+        height: 275px;
+    }
+    .search-splash {
+        height: 175px;
+    }
+    .information-container {
+        p {
+            font-size: 1.5rem;
+        }
+    }
+    .recipe-list-results {
+        p {
+            font-size: 1.2rem;
+        }
+
+        .recipe-list {
+            img {
+                width: 70px;
+                height: 70px;
+            }
+            i {
+                line-height: 70px;
+                font-size: 35px;
+            }
+        }
+    }
+    .recipe-list-search-options-container {
+        font-size: 1rem;
+        .dropdown-content li>span {
+            font-size: 1rem;
+        }
+        .select-wrapper input.select-dropdown {
+            font-size: 1rem !important;
+        }
+        .select-wrapper span {
+            font-size: 1rem !important;
+        }
+    }
+    .category-search-results-container {
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        .fa {
+            font-size: 50px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+
+    .search-button-container {
+        p {
+            font-size: 2.5rem;
+        }
+        .col {
+            line-height: 250px;
+        }
+    }
+
+    .display-recipe-button-container {
+        .dropdown-trigger {
+            margin: 10px 0 0 30px;
+        }
+    }
+    .recipe-details {
+        color: $base-color;
+        .row {
+            margin: 0;
+        }
+        i {
+            padding-top: 16px;
+            font-size: 50px;
+        }
+    }
+
+    #star {
+        font-size: 2.5rem;
+    }
+    .btn-large {
+        font-size: 1.2rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+    form {
+        p {
+            font-size: 1.2rem !important;
+        }
+        input {
+            font-size: 1.0rem !important;
+        }
+        label {
+            font-size: 1.2rem !important;
+
+        }
+    }
+}
