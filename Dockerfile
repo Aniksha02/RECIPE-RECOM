@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 ENV IP=0.0.0.0
 ENV PORT=8100
 ENV SECRET=randomstring
-ENV MONGO_URI=mongodb+srv://akashm1:akash123@cluster0.10pelru.mongodb.net/milestone-3
+ENV MONGO_URI=mongodb+srv://aniksha:aniksha123@cluster0.10pelru.mongodb.net/milestone-3
 
 COPY ./ ./
 
